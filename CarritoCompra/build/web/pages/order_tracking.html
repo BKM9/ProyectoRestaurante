@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Seguimiento de Pedido - Sabores Auténticos</title>
+    <link rel="stylesheet" href="../css/main.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<script type="module" src="https://static.rocket.new/rocket-web.js?_cfg=https%3A%2F%2Frestaurant9704back.builtwithrocket.new&_be=https%3A%2F%2Fapplication.rocket.new&_v=0.1.8"></script>
+</head>
+<body class="bg-background font-body">
+    <!-- Header Navigation -->
+    <header class="bg-white shadow-warm-sm sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <svg class="h-10 w-10 text-primary" viewBox="0 0 40 40" fill="currentColor">
+                        <circle cx="20" cy="20" r="18" fill="currentColor" opacity="0.1"/>
+                        <path d="M12 16h16v2H12v-2zm0 4h16v2H12v-2zm0 4h12v2H12v-2z" fill="currentColor"/>
+                        <circle cx="20" cy="12" r="3" fill="currentColor"/>
+                    </svg>
+                    <span class="ml-3 text-xl font-sans font-bold text-primary">Sabores Auténticos</span>
+                </div>
+
+                <!-- Desktop Navigation -->
+                <nav class="hidden md:flex space-x-8">
+                    <a href="restaurant_menu.html" class="text-text-secondary hover:text-primary transition-smooth">Menú</a>
+                    <a href="table_reservation.html" class="text-text-secondary hover:text-primary transition-smooth">Reservas</a>
+                    <a href="order_tracking.html" class="text-primary font-medium border-b-2 border-primary pb-1">Seguimiento</a>
+                </nav>
+
+                <!-- Cart Icon -->
+                <div class="flex items-center">
+                    <a href="shopping_cart.html" class="relative p-2 text-text-secondary hover:text-primary transition-smooth">
+                        <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.5 6M7 13l-1.5 6m0 0h9m-9 0h9"/>
+                        </svg>
+                        <span class="absolute -top-1 -right-1 bg-secondary text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">2</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Order Header -->
+    <section class="bg-surface py-6">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-white rounded-xl shadow-warm p-6">
+                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4">
+                    <div>
+                        <h1 class="text-2xl font-sans font-bold text-primary mb-2">Pedido #ORD-2025-0342</h1>
+                        <p class="text-text-secondary">Realizado el 9 de septiembre, 2025 a las 12:15</p>
+                    </div>
+                    <div class="mt-4 sm:mt-0">
+                        <span class="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-warning-100 text-warning-700">
+                            <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/>
+                            </svg>
+                            En Preparación
+                        </span>
+                    </div>
+                </div>
+                
+                <!-- Estimated Arrival -->
+                <div class="bg-primary-50 rounded-lg p-4 mb-6">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm text-text-secondary mb-1">Tiempo estimado de llegada</p>
+                            <p class="text-2xl font-bold text-primary" id="countdownTimer">25 minutos</p>
+                        </div>
+                        <div class="text-primary">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Progress Tracking -->
+    <section class="py-8">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-white rounded-xl shadow-warm p-6 mb-8">
+                <h2 class="text-xl font-sans font-bold text-primary mb-6">Estado del Pedido</h2>
+                
+                <!-- Desktop Progress Bar -->
+                <div class="hidden md:block">
+                    <div class="flex items-center justify-between mb-8">
+                        <!-- Step 1: Confirmado -->
+                        <div class="flex flex-col items-center flex-1">
+                            <div class="w-12 h-12 rounded-full bg-success text-white flex items-center justify-center mb-2">
+                                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                </svg>
+                            </div>
+                            <p class="text-sm font-medium text-success">Confirmado</p>
+                            <p class="text-xs text-text-secondary">12:15</p>
+                        </div>
+                        
+                        <!-- Progress Line 1 -->
+                        <div class="flex-1 h-1 bg-success mx-4"></div>
+                        
+                        <!-- Step 2: Preparando -->
+                        <div class="flex flex-col items-center flex-1">
+                            <div class="w-12 h-12 rounded-full bg-warning text-white flex items-center justify-center mb-2">
+                                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"/>
+                                </svg>
+                            </div>
+                            <p class="text-sm font-medium text-warning">Preparando</p>
+                            <p class="text-xs text-text-secondary">12:18</p>
+                        </div>
+                        
+                        <!-- Progress Line 2 -->
+                        <div class="flex-1 h-1 bg-border mx-4"></div>
+                        
+                        <!-- Step 3: Listo -->
+                        <div class="flex flex-col items-center flex-1">
+                            <div class="w-12 h-12 rounded-full bg-border text-text-secondary flex items-center justify-center mb-2">
+                                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                </svg>
+                            </div>
+                            <p class="text-sm font-medium text-text-secondary">Listo</p>
+                            <p class="text-xs text-text-secondary">Est. 12:35</p>
+                        </div>
+                        
+                        <!-- Progress Line 3 -->
+                        <div class="flex-1 h-1 bg-border mx-4"></div>
+                        
+                        <!-- Step 4: En Camino -->
+                        <div class="flex flex-col items-center flex-1">
+                            <div class="w-12 h-12 rounded-full bg-border text-text-secondary flex items-center justify-center mb-2">
+                                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M8 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM15 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"/>
+                                    <path d="M3 4a1 1 0 00-1 1v10a1 1 0 001 1h1.05a2.5 2.5 0 014.9 0H10a1 1 0 001-1V5a1 1 0 00-1-1H3zM14 7a1 1 0 00-1 1v6.05A2.5 2.5 0 0115.95 16H17a1 1 0 001-1v-5a1 1 0 00-.293-.707L16 7.586A1 1 0 0015.414 7H14z"/>
+                                </svg>
+                            </div>
+                            <p class="text-sm font-medium text-text-secondary">En Camino</p>
+                            <p class="text-xs text-text-secondary">Est. 12:40</p>
+                        </div>
+                        
+                        <!-- Progress Line 4 -->
+                        <div class="flex-1 h-1 bg-border mx-4"></div>
+                        
+                        <!-- Step 5: Entregado -->
+                        <div class="flex flex-col items-center flex-1">
+                            <div class="w-12 h-12 rounded-full bg-border text-text-secondary flex items-center justify-center mb-2">
+                                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                            </div>
+                            <p class="text-sm font-medium text-text-secondary">Entregado</p>
+                            <p class="text-xs text-text-secondary">Est. 12:45</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mobile Progress Bar -->
+                <div class="md:hidden space-y-4">
+                    <!-- Step 1 -->
+                    <div class="flex items-center">
+                        <div class="w-10 h-10 rounded-full bg-success text-white flex items-center justify-center mr-4">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                        <div class="flex-1">
+                            <p class="font-medium text-success">Pedido Confirmado</p>
+                            <p class="text-sm text-text-secondary">12:15 - Completado</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 2 -->
+                    <div class="flex items-center">
+                        <div class="w-10 h-10 rounded-full bg-warning text-white flex items-center justify-center mr-4">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"/>
+                            </svg>
+                        </div>
+                        <div class="flex-1">
+                            <p class="font-medium text-warning">Preparando Pedido</p>
+                            <p class="text-sm text-text-secondary">12:18 - En progreso</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 3 -->
+                    <div class="flex items-center opacity-50">
+                        <div class="w-10 h-10 rounded-full bg-border text-text-secondary flex items-center justify-center mr-4">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                        <div class="flex-1">
+                            <p class="font-medium text-text-secondary">Pedido Listo</p>
+                            <p class="text-sm text-text-secondary">Est. 12:35</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 4 -->
+                    <div class="flex items-center opacity-50">
+                        <div class="w-10 h-10 rounded-full bg-border text-text-secondary flex items-center justify-center mr-4">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M8 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM15 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"/>
+                                <path d="M3 4a1 1 0 00-1 1v10a1 1 0 001 1h1.05a2.5 2.5 0 014.9 0H10a1 1 0 001-1V5a1 1 0 00-1-1H3zM14 7a1 1 0 00-1 1v6.05A2.5 2.5 0 0115.95 16H17a1 1 0 001-1v-5a1 1 0 00-.293-.707L16 7.586A1 1 0 0015.414 7H14z"/>
+                            </svg>
+                        </div>
+                        <div class="flex-1">
+                            <p class="font-medium text-text-secondary">En Camino</p>
+                            <p class="text-sm text-text-secondary">Est. 12:40</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 5 -->
+                    <div class="flex items-center opacity-50">
+                        <div class="w-10 h-10 rounded-full bg-border text-text-secondary flex items-center justify-center mr-4">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                        </div>
+                        <div class="flex-1">
+                            <p class="font-medium text-text-secondary">Entregado</p>
+                            <p class="text-sm text-text-secondary">Est. 12:45</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Order Details -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Order Items -->
+                <div class="bg-white rounded-xl shadow-warm p-6">
+                    <h3 class="text-lg font-sans font-bold text-primary mb-4">Detalles del Pedido</h3>
+                    <div class="space-y-4">
+                        <!-- Item 1 -->
+                        <div class="flex items-center space-x-4 pb-4 border-b border-warm-light">
+                            <img src="https://images.pexels.com/photos/725991/pexels-photo-725991.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Paella Valenciana" class="w-16 h-16 rounded-lg object-cover" onerror="this.src='https://images.unsplash.com/photo-1584824486509-112e4181ff6b?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'; this.onerror=null;" />
+                            <div class="flex-1">
+                                <h4 class="font-medium text-text-primary">Paella Valenciana</h4>
+                                <p class="text-sm text-text-secondary">Cantidad: 1</p>
+                                <p class="text-sm text-text-secondary">Sin modificaciones</p>
+                            </div>
+                            <div class="text-right">
+                                <p class="font-bold text-primary">€24,90</p>
+                            </div>
+                        </div>
+
+                        <!-- Item 2 -->
+                        <div class="flex items-center space-x-4 pb-4 border-b border-warm-light">
+                            <img src="https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Ensalada Mediterránea" class="w-16 h-16 rounded-lg object-cover" onerror="this.src='https://images.unsplash.com/photo-1584824486509-112e4181ff6b?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'; this.onerror=null;" />
+                            <div class="flex-1">
+                                <h4 class="font-medium text-text-primary">Ensalada Mediterránea</h4>
+                                <p class="text-sm text-text-secondary">Cantidad: 2</p>
+                                <p class="text-sm text-text-secondary">Sin aceitunas</p>
+                            </div>
+                            <div class="text-right">
+                                <p class="font-bold text-primary">€17,00</p>
+                            </div>
+                        </div>
+
+                        <!-- Order Summary -->
+                        <div class="pt-4 space-y-2">
+                            <div class="flex justify-between text-text-secondary">
+                                <span>Subtotal</span>
+                                <span>€41,90</span>
+                            </div>
+                            <div class="flex justify-between text-text-secondary">
+                                <span>Gastos de envío</span>
+                                <span>€2,50</span>
+                            </div>
+                            <div class="flex justify-between font-bold text-primary text-lg pt-2 border-t border-warm-light">
+                                <span>Total</span>
+                                <span>€44,40</span>
+                            </div>
+                        </div>
+
+                        <!-- Special Instructions -->
+                        <div class="bg-surface rounded-lg p-4 mt-4">
+                            <h5 class="font-medium text-text-primary mb-2">Instrucciones Especiales</h5>
+                            <p class="text-sm text-text-secondary">Tocar el timbre dos veces. Dejar en la puerta si no hay respuesta.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Delivery Information -->
+                <div class="space-y-6">
+                    <!-- Delivery Address -->
+                    <div class="bg-white rounded-xl shadow-warm p-6">
+                        <h3 class="text-lg font-sans font-bold text-primary mb-4">Dirección de Entrega</h3>
+                        <div class="space-y-2">
+                            <p class="font-medium text-text-primary">María González</p>
+                            <p class="text-text-secondary">Calle Mayor, 123, 2º A</p>
+                            <p class="text-text-secondary">28001 Madrid, España</p>
+                            <p class="text-text-secondary">Teléfono: +34 612 345 678</p>
+                        </div>
+                    </div>
+
+                    <!-- Driver Information -->
+                    <div class="bg-white rounded-xl shadow-warm p-6">
+                        <h3 class="text-lg font-sans font-bold text-primary mb-4">Información del Repartidor</h3>
+                        <div class="text-center text-text-secondary">
+                            <svg class="w-16 h-16 mx-auto mb-4 text-border" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z" clip-rule="evenodd"/>
+                            </svg>
+                            <p class="text-sm">El repartidor será asignado cuando el pedido esté listo</p>
+                        </div>
+                    </div>
+
+                    <!-- Live Map Placeholder -->
+                    <div class="bg-white rounded-xl shadow-warm p-6">
+                        <h3 class="text-lg font-sans font-bold text-primary mb-4">Ubicación en Tiempo Real</h3>
+                        <div class="bg-surface rounded-lg h-48 flex items-center justify-center">
+                            <div class="text-center text-text-secondary">
+                                <svg class="w-12 h-12 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                </svg>
+                                <p class="text-sm">El seguimiento en vivo estará disponible cuando el pedido esté en camino</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="mt-8 bg-white rounded-xl shadow-warm p-6">
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <!-- Contact Restaurant -->
+                    <button class="flex-1 bg-primary hover:bg-primary-600 text-white px-6 py-3 rounded-lg font-medium transition-smooth flex items-center justify-center">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+                        </svg>
+                        Contactar Restaurante
+                    </button>
+
+                    <!-- Modify Order -->
+                    <button class="flex-1 bg-secondary hover:bg-secondary-600 text-white px-6 py-3 rounded-lg font-medium transition-smooth flex items-center justify-center">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                        </svg>
+                        Modificar Pedido
+                    </button>
+
+                    <!-- Share Tracking -->
+                    <button class="flex-1 border border-primary text-primary hover:bg-primary-50 px-6 py-3 rounded-lg font-medium transition-smooth flex items-center justify-center">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z"/>
+                        </svg>
+                        Compartir Seguimiento
+                    </button>
+                </div>
+            </div>
+
+            <!-- Notification Settings -->
+            <div class="mt-8 bg-white rounded-xl shadow-warm p-6">
+                <h3 class="text-lg font-sans font-bold text-primary mb-4">Configuración de Notificaciones</h3>
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="font-medium text-text-primary">Notificaciones Push</p>
+                            <p class="text-sm text-text-secondary">Recibir actualizaciones en tiempo real</p>
+                        </div>
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" class="sr-only peer" checked />
+                            <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+                        </label>
+                    </div>
+                    
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="font-medium text-text-primary">Notificaciones por SMS</p>
+                            <p class="text-sm text-text-secondary">Recibir SMS con actualizaciones importantes</p>
+                        </div>
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" class="sr-only peer" />
+                            <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+                        </label>
+                    </div>
+                    
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="font-medium text-text-primary">Notificaciones por Email</p>
+                            <p class="text-sm text-text-secondary">Recibir confirmaciones por correo electrónico</p>
+                        </div>
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" class="sr-only peer" checked />
+                            <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-primary text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <!-- Company Info -->
+                <div class="col-span-1 md:col-span-2">
+                    <div class="flex items-center mb-4">
+                        <svg class="h-8 w-8 text-white" viewBox="0 0 40 40" fill="currentColor">
+                            <circle cx="20" cy="20" r="18" fill="currentColor" opacity="0.2"/>
+                            <path d="M12 16h16v2H12v-2zm0 4h16v2H12v-2zm0 4h12v2H12v-2z" fill="currentColor"/>
+                            <circle cx="20" cy="12" r="3" fill="currentColor"/>
+                        </svg>
+                        <span class="ml-3 text-xl font-sans font-bold">Sabores Auténticos</span>
+                    </div>
+                    <p class="text-primary-100 mb-4">
+                        Experiencia gastronómica auténtica con los mejores ingredientes y tradición culinaria española.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="javascript:void(0)" class="text-primary-200 hover:text-white transition-smooth">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
+                            </svg>
+                        </a>
+                        <a href="javascript:void(0)" class="text-primary-200 hover:text-white transition-smooth">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M22.46 6c-.77.35-1.6.58-2.46.69.88-.53 1.56-1.37 1.88-2.38-.83.5-1.75.85-2.72 1.05C18.37 4.5 17.26 4 16 4c-2.35 0-4.27 1.92-4.27 4.29 0 .34.04.67.11.98C8.28 9.09 5.11 7.38 3 4.79c-.37.63-.58 1.37-.58 2.15 0 1.49.75 2.81 1.91 3.56-.71 0-1.37-.2-1.95-.5v.03c0 2.08 1.48 3.82 3.44 4.21a4.22 4.22 0 0 1-1.93.07 4.28 4.28 0 0 0 4 2.98 8.521 8.521 0 0 1-5.33 1.84c-.34 0-.68-.02-1.02-.06C3.44 20.29 5.7 21 8.12 21 16 21 20.33 14.46 20.33 8.79c0-.19 0-.37-.01-.56.84-.6 1.56-1.36 2.14-2.23z"/>
+                            </svg>
+                        </a>
+                        <a href="javascript:void(0)" class="text-primary-200 hover:text-white transition-smooth">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 5.079 3.158 9.417 7.618 11.174-.105-.949-.199-2.403.041-3.439.219-.937 1.406-5.957 1.406-5.957s-.359-.72-.359-1.781c0-1.663.967-2.911 2.168-2.911 1.024 0 1.518.769 1.518 1.688 0 1.029-.653 2.567-.992 3.992-.285 1.193.6 2.165 1.775 2.165 2.128 0 3.768-2.245 3.768-5.487 0-2.861-2.063-4.869-5.008-4.869-3.41 0-5.409 2.562-5.409 5.199 0 1.033.394 2.143.889 2.741.099.12.112.225.085.345-.09.375-.293 1.199-.334 1.363-.053.225-.172.271-.402.165-1.495-.69-2.433-2.878-2.433-4.646 0-3.776 2.748-7.252 7.92-7.252 4.158 0 7.392 2.967 7.392 6.923 0 4.135-2.607 7.462-6.233 7.462-1.214 0-2.357-.629-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24.009 12.017 24.009c6.624 0 11.99-5.367 11.99-11.988C24.007 5.367 18.641.001 12.017.001z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Enlaces Rápidos</h3>
+                    <ul class="space-y-2">
+                        <li><a href="restaurant_menu.html" class="text-primary-200 hover:text-white transition-smooth">Menú</a></li>
+                        <li><a href="table_reservation.html" class="text-primary-200 hover:text-white transition-smooth">Reservas</a></li>
+                        <li><a href="order_tracking.html" class="text-primary-200 hover:text-white transition-smooth">Seguimiento</a></li>
+                        <li><a href="javascript:void(0)" class="text-primary-200 hover:text-white transition-smooth">Sobre Nosotros</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact Info -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Contacto</h3>
+                    <ul class="space-y-2 text-primary-200">
+                        <li class="flex items-center">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                            </svg>
+                            Calle Gourmet, 123, Madrid
+                        </li>
+                        <li class="flex items-center">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+                            </svg>
+                            +34 91 123 4567
+                        </li>
+                        <li class="flex items-center">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                            </svg>
+                            info@saboresautenticos.es
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="border-t border-primary-700 mt-8 pt-8 text-center text-primary-200">
+                <p>&copy; 2025 Sabores Auténticos. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Countdown timer functionality
+        function updateCountdown() {
+            const countdownElement = document.getElementById('countdownTimer');
+            let minutes = 25;
+            let seconds = 0;
+
+            const timer = setInterval(() => {
+                if (seconds === 0) {
+                    if (minutes === 0) {
+                        clearInterval(timer);
+                        countdownElement.textContent = 'Llegando pronto';
+                        return;
+                    }
+                    minutes--;
+                    seconds = 59;
+                } else {
+                    seconds--;
+                }
+
+                const displayMinutes = minutes.toString().padStart(2, '0');
+                const displaySeconds = seconds.toString().padStart(2, '0');
+                countdownElement.textContent = `${displayMinutes}:${displaySeconds}`;
+            }, 1000);
+        }
+
+        // Simulate WebSocket connection for real-time updates
+        function simulateRealTimeUpdates() {
+            // Simulate status updates every 30 seconds
+            setTimeout(() => {
+                console.log('Order status updated: Preparing');
+                // In a real app, this would update the UI based on WebSocket data
+            }, 30000);
+
+            setTimeout(() => {
+                console.log('Order status updated: Ready');
+                // Update progress bar to show "Ready" status
+            }, 60000);
+        }
+
+        // Initialize functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            updateCountdown();
+            simulateRealTimeUpdates();
+
+            // Handle notification toggle switches
+            const toggleSwitches = document.querySelectorAll('input[type="checkbox"]');
+            toggleSwitches.forEach(toggle => {
+                toggle.addEventListener('change', function() {
+                    console.log('Notification setting changed:', this.checked);
+                    // In a real app, this would save the preference
+                });
+            });
+
+            // Handle action buttons
+            const contactButton = document.querySelector('button:has(path[d*="M3 5a2 2 0 012-2h3.28"])');
+            if (contactButton) {
+                contactButton.addEventListener('click', function() {
+                    // Simulate calling restaurant
+                    alert('Conectando con el restaurante...');
+                });
+            }
+
+            const modifyButton = document.querySelector('button:has(path[d*="M11 5H6a2 2 0 00-2 2v11"])');
+            if (modifyButton) {
+                modifyButton.addEventListener('click', function() {
+                    // Check if order can still be modified
+                    alert('El pedido aún se puede modificar durante los primeros 5 minutos.');
+                });
+            }
+
+            const shareButton = document.querySelector('button:has(path[d*="M8.684 13.342C8.886"])');
+            if (shareButton) {
+                shareButton.addEventListener('click', function() {
+                    // Simulate sharing tracking link
+                    if (navigator.share) {
+                        navigator.share({
+                            title: 'Seguimiento de Pedido - Sabores Auténticos',
+                            text: 'Sigue mi pedido en tiempo real',
+                            url: window.location.href
+                        });
+                    } else {
+                        // Fallback for browsers that don't support Web Share API
+                        navigator.clipboard.writeText(window.location.href).then(() => {
+                            alert('Enlace de seguimiento copiado al portapapeles');
+                        });
+                    }
+                });
+            }
+        });
+
+        // Simulate order status progression
+        function simulateOrderProgress() {
+            const steps = [
+                { status: 'confirmed', time: '12:15', completed: true },
+                { status: 'preparing', time: '12:18', completed: true },
+                { status: 'ready', time: '12:35', completed: false },
+                { status: 'on-way', time: '12:40', completed: false },
+                { status: 'delivered', time: '12:45', completed: false }
+            ];
+
+            // This would be replaced with real WebSocket data in production
+            console.log('Order tracking initialized with current status: Preparing');
+        }
+
+        // Initialize order progress simulation
+        simulateOrderProgress();
+    </script>
+<script id="dhws-dataInjector" src="../public/dhws-data-injector.js"></script>
+</body>
+</html>

@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Procesamiento de Pago - Sabores Auténticos</title>
+        <link rel="stylesheet" href="../css/main.css" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <script type="module" src="https://static.rocket.new/rocket-web.js?_cfg=https%3A%2F%2Frestaurant9704back.builtwithrocket.new&_be=https%3A%2F%2Fapplication.rocket.new&_v=0.1.8"></script>
+        <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+    </head>
+    <body class="bg-background font-body">
+        <!-- Header Navigation -->
+        <header class="bg-white shadow-warm-sm sticky top-0 z-40">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center h-16">
+                    <!-- Logo -->
+                    <div class="flex items-center">
+                        <svg class="h-10 w-10 text-primary" viewBox="0 0 40 40" fill="currentColor">
+                        <circle cx="20" cy="20" r="18" fill="currentColor" opacity="0.1"/>
+                        <path d="M12 16h16v2H12v-2zm0 4h16v2H12v-2zm0 4h12v2H12v-2z" fill="currentColor"/>
+                        <circle cx="20" cy="12" r="3" fill="currentColor"/>
+                        </svg>
+                        <span class="ml-3 text-xl font-sans font-bold text-primary">Sabores Auténticos</span>
+                    </div>
+
+                    <!-- Desktop Navigation -->
+                    <nav class="hidden md:flex space-x-8">
+                        <a href="restaurant_menu.html" class="text-text-secondary hover:text-primary transition-smooth">Menú</a>
+                        <a href="table_reservation.html" class="text-text-secondary hover:text-primary transition-smooth">Reservas</a>
+                        <a href="order_tracking.html" class="text-text-secondary hover:text-primary transition-smooth">Seguimiento</a>
+                    </nav>
+
+                    <!-- Cart Icon -->
+                    <div class="flex items-center">
+                        <a href="shopping_cart.html" class="relative p-2 text-text-secondary hover:text-primary transition-smooth">
+                            <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.5 6M7 13l-1.5 6m0 0h9m-9 0h9"/>
+                            </svg>
+                            <span id="cartCount" class="absolute -top-1 -right-1 bg-secondary text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">3</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Progress Indicator -->
+        <section class="bg-surface py-4">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-4">
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 bg-accent rounded-full flex items-center justify-center">
+                                <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                </svg>
+                            </div>
+                            <span class="ml-2 text-sm font-medium text-accent">Carrito</span>
+                        </div>
+                        <div class="w-16 h-0.5 bg-accent"></div>
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
+                                <span class="text-white text-sm font-bold">2</span>
+                            </div>
+                            <span class="ml-2 text-sm font-medium text-primary">Pago</span>
+                        </div>
+                        <div class="w-16 h-0.5 bg-border"></div>
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 bg-border rounded-full flex items-center justify-center">
+                                <span class="text-text-secondary text-sm font-bold">3</span>
+                            </div>
+                            <span class="ml-2 text-sm font-medium text-text-secondary">Confirmación</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Main Content -->
+        <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Payment Methods Section -->
+                <div class="lg:col-span-2">
+                    <div class="bg-white rounded-xl shadow-warm p-6 mb-6">
+                        <h2 class="text-2xl font-sans font-bold text-primary mb-6">Método de Pago</h2>
+
+                        <!-- Payment Method Selection -->
+                        <div class="space-y-4 mb-6">
+                            <!-- Traditional Payment Card -->
+                            <div class="payment-method-card border-2 border-warm rounded-lg p-4 cursor-pointer hover:border-primary transition-smooth" data-method="card">
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center space-x-4">
+                                        <div class="w-12 h-12 bg-primary-50 rounded-lg flex items-center justify-center">
+                                            <svg class="w-6 h-6 text-primary" fill="currentColor" viewBox="0 0 24 24">
+                                            <path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/>
+                                            </svg>
+                                        </div>
+                                        <div>
+                                            <h3 class="font-semibold text-text-primary">Tarjeta de Crédito/Débito</h3>
+                                            <p class="text-sm text-text-secondary">Visa, Mastercard, American Express</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex space-x-2">
+                                        <img src="https://images.vexels.com/media/users/3/261853/isolated/preview/71bdb0b66f426075b049dc89581d8178-icono-de-tarjetas-de-credito-de-dinero.png" alt="Visa" class="h-8 w-12 object-contain" onerror="this.src='https://images.unsplash.com/photo-1584824486509-112e4181ff6b?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'; this.onerror=null;" />
+                                        <div class="w-4 h-4 border-2 border-border rounded-full payment-radio"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Cryptocurrency Payment Card -->
+                            <div class="payment-method-card border-2 border-warm rounded-lg p-4 cursor-pointer hover:border-primary transition-smooth" data-method="crypto">
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center space-x-4">
+                                        <div class="w-12 h-12 bg-secondary-50 rounded-lg flex items-center justify-center">
+                                            <svg class="w-6 h-6 text-secondary" fill="currentColor" viewBox="0 0 24 24">
+                                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                                            </svg>
+                                        </div>
+                                        <div>
+                                            <h3 class="font-semibold text-text-primary">Criptomonedas</h3>
+                                            <p class="text-sm text-text-secondary">Bitcoin, Ethereum, y más</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center space-x-4">
+                                        <div class="flex space-x-1">
+                                            <span class="text-xs bg-warning-100 text-warning-700 px-2 py-1 rounded">BTC</span>
+                                            <span class="text-xs bg-accent-100 text-accent-700 px-2 py-1 rounded">ETH</span>
+                                        </div>
+                                        <div class="w-4 h-4 border-2 border-border rounded-full payment-radio"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- YAPE -->
+                            <div class="payment-method-card border-2 border-warm rounded-lg p-4 cursor-pointer hover:border-primary transition-smooth" data-method="yape">
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center space-x-4">
+                                        <div class="w-12 h-12 bg-primary-50 rounded-lg flex items-center justify-center">
+                                            <svg class="w-6 h-6 text-primary" fill="currentColor" viewBox="0 0 24 24">
+                                            <path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/>
+                                            </svg>
+                                        </div>
+                                        <div>
+                                            <h3 class="font-semibold text-text-primary">Yape</h3>
+                                            <p class="text-sm text-text-secondary">Yape, Plin, QR y mas </p>
+                                        </div>
+                                    </div>
+                                    <div class="flex space-x-2">
+                                        <img src="https://logosenvector.com/logo/img/yape-bolivia-37328.png" alt="Visa" class="h-8 w-12 object-contain" onerror="this.src='https://images.unsplash.com/photo-1584824486509-112e4181ff6b?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'; this.onerror=null;" />
+                                        <div class="w-4 h-4 border-2 border-border rounded-full payment-radio"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card Payment Form -->
+                        <div id="cardPaymentForm" class="payment-form hidden">
+                            <h3 class="text-lg font-semibold text-text-primary mb-4">Información de la Tarjeta</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="md:col-span-2">
+                                    <label class="block text-sm font-medium text-text-primary mb-2">Número de Tarjeta</label>
+                                    <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456" class="w-full px-4 py-3 border border-warm rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" />
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-text-primary mb-2">Fecha de Vencimiento</label>
+                                    <input type="text" id="cardExpiry" placeholder="MM/AA" class="w-full px-4 py-3 border border-warm rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" />
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-text-primary mb-2">CVV</label>
+                                    <input type="text" id="cardCvv" placeholder="123" class="w-full px-4 py-3 border border-warm rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" />
+                                </div>
+                                <div class="md:col-span-2">
+                                    <label class="block text-sm font-medium text-text-primary mb-2">Nombre del Titular</label>
+                                    <input type="text" id="cardName" placeholder="Juan Pérez" class="w-full px-4 py-3 border border-warm rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" />
+                                </div>
+                            </div>
+
+                            <!-- Billing Address -->
+                            <div class="mt-6">
+                                <h4 class="text-md font-semibold text-text-primary mb-4">Dirección de Facturación</h4>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div class="md:col-span-2">
+                                        <label class="block text-sm font-medium text-text-primary mb-2">Dirección</label>
+                                        <input type="text" id="billingAddress" placeholder="Calle Principal 123" class="w-full px-4 py-3 border border-warm rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" />
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-text-primary mb-2">Ciudad</label>
+                                        <input type="text" id="billingCity" placeholder="Madrid" class="w-full px-4 py-3 border border-warm rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" />
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-text-primary mb-2">Código Postal</label>
+                                        <input type="text" id="billingZip" placeholder="28001" class="w-full px-4 py-3 border border-warm rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Crypto Payment Form -->
+                        <div id="cryptoPaymentForm" class="payment-form hidden">
+                            <h3 class="text-lg font-semibold text-text-primary mb-4">Seleccionar Criptomoneda</h3>
+
+                            <!-- Crypto Selection -->
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                                <div class="crypto-option border-2 border-warm rounded-lg p-4 cursor-pointer hover:border-secondary transition-smooth" data-crypto="btc">
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex items-center space-x-3">
+                                            <div class="w-10 h-10 bg-warning-100 rounded-full flex items-center justify-center">
+                                                <span class="text-warning-700 font-bold text-sm">₿</span>
+                                            </div>
+                                            <div>
+                                                <h4 class="font-semibold text-text-primary">Bitcoin</h4>
+                                                <p class="text-sm text-text-secondary">BTC</p>
+                                            </div>
+                                        </div>
+                                        <div class="text-right">
+                                            <p class="font-semibold text-text-primary">S/. 42.350,00</p>
+                                            <p class="text-xs text-accent">+2.5%</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="crypto-option border-2 border-warm rounded-lg p-4 cursor-pointer hover:border-secondary transition-smooth" data-crypto="eth">
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex items-center space-x-3">
+                                            <div class="w-10 h-10 bg-accent-100 rounded-full flex items-center justify-center">
+                                                <span class="text-accent-700 font-bold text-sm">Ξ</span>
+                                            </div>
+                                            <div>
+                                                <h4 class="font-semibold text-text-primary">Ethereum</h4>
+                                                <p class="text-sm text-text-secondary">ETH</p>
+                                            </div>
+                                        </div>
+                                        <div class="text-right">
+                                            <p class="font-semibold text-text-primary">S/. 2.850,00</p>
+                                            <p class="text-xs text-accent">+1.8%</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- QR Code and Payment Details -->
+                            <div id="cryptoDetails" class="hidden">
+                                <div class="bg-surface rounded-lg p-6">
+                                    <div class="text-center mb-4">
+                                        <h4 class="font-semibold text-text-primary mb-2">Escanea el código QR</h4>
+                                        <div class="inline-block bg-white p-4 rounded-lg shadow-warm">
+                                            <img src="https://images.pexels.com/photos/8369648/pexels-photo-8369648.jpeg?auto=compress&cs=tinysrgb&w=600" alt="QR Code" class="w-32 h-32 object-cover" onerror="this.src='https://images.unsplash.com/photo-1584824486509-112e4181ff6b?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'; this.onerror=null;" />
+                                        </div>
+                                    </div>
+                                    <div class="space-y-3">
+                                        <div class="flex justify-between items-center">
+                                            <span class="text-sm text-text-secondary">Cantidad:</span>
+                                            <span class="font-semibold text-text-primary" id="cryptoAmount">0.00125 BTC</span>
+                                        </div>
+                                        <div class="flex justify-between items-center">
+                                            <span class="text-sm text-text-secondary">Valor en EUR:</span>
+                                            <span class="font-semibold text-text-primary">S/. 52,94</span>
+                                        </div>
+                                        <div class="border-t border-warm pt-3">
+                                            <p class="text-xs text-text-secondary mb-2">Dirección de la Wallet:</p>
+                                            <div class="bg-white p-3 rounded border border-warm font-data text-xs break-all">
+                                                1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Yape Form -->
+                        <div id="yape" class="payment-form hidden">
+                            <h3 class="text-lg font-semibold text-text-primary mb-4">
+                                Escanee el Codigo QR para realizar el pago
+                            </h3>
+
+                            <div class="flex justify-center">
+                                <div id="qrcode"></div>
+                            </div>
+                        </div>
+
+                        <script>
+                            let numTelf = "000000000";
+                            let apiPagar = "http://localhost:8082/api/restaurante/pagarPedido";
+
+                            console.log("link: ", apiPagar);
+
+                            new QRCode(document.getElementById("qrcode"), {
+                                text: numTelf,
+                                width: 200,
+                                height: 200
+                            });
+                        </script>
+
+
+                        <!-- Security Badges -->
+                        <div class="mt-6 pt-6 border-t border-warm">
+                            <div class="flex flex-wrap items-center justify-center space-x-6">
+                                <div class="flex items-center space-x-2">
+                                    <svg class="w-5 h-5 text-accent" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"/>
+                                    </svg>
+                                    <span class="text-sm text-text-secondary">SSL Seguro</span>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <svg class="w-5 h-5 text-accent" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                    </svg>
+                                    <span class="text-sm text-text-secondary">Verificado</span>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <svg class="w-5 h-5 text-accent" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                    </svg>
+                                    <span class="text-sm text-text-secondary">Protección de Datos</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Order Summary Sidebar -->
+                <div class="lg:col-span-1">
+                    <div class="bg-white rounded-xl shadow-warm p-6 sticky top-24">
+                        <h3 class="text-lg font-semibold text-text-primary mb-4">Resumen del Pedido</h3>
+
+                        <!-- Order Items -->
+                        <div id="orderItems" class="space-y-3 mb-4"></div>
+                        <script>
+                            // Recuperar datos del pedido
+                            const orderDetails = JSON.parse(localStorage.getItem('orderDetails'));
+
+                            if (orderDetails && orderDetails.items.length > 0) {
+                                const orderContainer = document.getElementById('orderItems');
+
+                                orderDetails.items.forEach(item => {
+                                    const itemHTML = `
+                                <div class="flex items-center space-x-3">
+                                  <img src="${item.image}" alt="${item.name}" 
+                                       class="w-12 h-12 object-cover rounded-lg"
+                                       onerror="this.src='https://images.unsplash.com/photo-1584824486509-112e4181ff6b?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'; this.onerror=null;" />
+                                  <div class="flex-1">
+                                    <h4 class="text-sm font-medium text-text-primary">${item.name}</h4>
+                                    <p class="text-xs text-text-secondary">Cantidad: ${item.quantity}</p>
+                                  </div>
+                                  <span class="text-sm font-semibold text-text-primary">S/. ${item.price.toFixed(2)}</span>
+                                </div>
+                              `;
+
+                                    orderContainer.insertAdjacentHTML('beforeend', itemHTML);
+                                });
+                            }
+                        </script>
+
+                        <!-- Delivery Details -->
+                        <div class="border-t border-warm pt-4 mb-4">
+                            <h4 class="text-sm font-semibold text-text-primary mb-2">Detalles de Entrega</h4>
+                            <div class="space-y-2 text-sm">
+                                <div class="flex justify-between">
+                                    <span class="text-text-secondary">Tipo:</span>
+                                    <span class="text-text-primary">Entrega a domicilio</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-text-secondary">Dirección:</span>
+                                    <span class="text-text-primary text-right">Calle Mayor 15, Madrid</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-text-secondary">Tiempo estimado:</span>
+                                    <span class="text-text-primary">30-45 min</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Price Breakdown -->
+                        <!-- Order Summary -->
+                        <div id="orderSummary" class="border-t border-warm pt-4 space-y-2"></div>
+
+                        <script>
+                            const calcularOrderDetails = JSON.parse(localStorage.getItem('orderDetails'));
+
+                            if (calcularOrderDetails && calcularOrderDetails.items.length > 0) {
+                                // Calcular subtotal
+                                let subtotal = 0;
+                                calcularOrderDetails.items.forEach(item => {
+                                    subtotal += item.price * item.quantity;
+                                });
+
+                                // Costo de envío fijo
+                                const shipping = 5.50;
+
+                                // IGV 18%
+                                const igv = subtotal * 0.18;
+
+                                // Total final
+                                const total = subtotal + shipping + igv;
+
+                                // Renderizar en el div
+                                const summaryContainer = document.getElementById("orderSummary");
+                                summaryContainer.innerHTML = `
+                              <div class="flex justify-between text-sm">
+                                <span class="text-text-secondary">Subtotal:</span>
+                                <span class="text-text-primary">S/. ${subtotal.toFixed(2)}</span>
+                              </div>
+                              <div class="flex justify-between text-sm">
+                                <span class="text-text-secondary">Gastos de envío:</span>
+                                <span class="text-text-primary">S/. ${shipping.toFixed(2)}</span>
+                              </div>
+                              <div class="flex justify-between text-sm">
+                                <span class="text-text-secondary">IGV (18%):</span>
+                                <span class="text-text-primary">S/. ${igv.toFixed(2)}</span>
+                              </div>
+                              <div class="border-t border-warm pt-2">
+                                <div class="flex justify-between font-semibold text-lg">
+                                  <span class="text-text-primary">Total:</span>
+                                  <span class="text-primary">S/. ${total.toFixed(2)}</span>
+                                </div>
+                              </div>
+                            `;
+                            }
+                        </script>
+
+
+                        <!-- Payment Button -->
+                        <button id="processPayment" class="w-full mt-6 bg-secondary hover:bg-secondary-600 text-white py-3 px-4 rounded-lg font-semibold transition-smooth disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                            <span id="paymentButtonText">Seleccionar método de pago</span>
+                        </button>
+
+                        <!-- Back to Cart -->
+                        <a href="shopping_cart.html" class="block w-full mt-3 text-center py-3 px-4 border border-warm rounded-lg text-text-secondary hover:bg-surface transition-smooth">
+                            Volver al Carrito
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Payment Processing Modal -->
+        <div id="processingModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" style="display: none;">
+            <div class="bg-white rounded-xl p-8 max-w-md w-full mx-4 text-center">
+                <div class="mb-6">
+                    <div class="w-16 h-16 bg-primary-50 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-8 h-8 text-primary animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-text-primary mb-2">Procesando Pago</h3>
+                    <p class="text-text-secondary">Por favor, espere mientras procesamos su pago de forma segura...</p>
+                </div>
+
+                <div class="space-y-2 text-sm text-left">
+                    <div class="flex items-center space-x-2 step">
+                        <div class="w-4 h-4 bg-accent rounded-full flex items-center justify-center">
+                            <svg class="w-2 h-2 text-white" fill="currentColor" viewBox="0 0 8 8">
+                            <path d="M6.564.75l-3.59 3.612-1.538-1.55L0 4.26l2.974 2.99L8 2.193z"/>
+                            </svg>
+                        </div>
+                        <span class="text-text-secondary">Verificando información de pago</span>
+                    </div>
+                    <div class="flex items-center space-x-2 step">
+                        <div class="w-4 h-4 border-2 border-primary rounded-full animate-spin"></div>
+                        <span class="text-text-secondary">Procesando transacción</span>
+                    </div>
+                    <div class="flex items-center space-x-2 step">
+                        <div class="w-4 h-4 border-2 border-border rounded-full"></div>
+                        <span class="text-text-secondary">Confirmando pedido</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+            // Payment method selection
+            let selectedPaymentMethod = null;
+            let selectedCrypto = null;
+            let codigoPedido = null;
+            let fechPedido = null;
+
+            // Payment method cards
+            document.querySelectorAll('.payment-method-card').forEach(card => {
+                card.addEventListener('click', function () {
+                    // Remove active state from all cards
+                    document.querySelectorAll('.payment-method-card').forEach(c => {
+                        c.classList.remove('border-primary', 'bg-primary-50');
+                        c.querySelector('.payment-radio').classList.remove('bg-primary', 'border-primary');
+                        c.querySelector('.payment-radio').classList.add('border-border');
+                    });
+
+                    // Hide all payment forms
+                    document.querySelectorAll('.payment-form').forEach(form => {
+                        form.classList.add('hidden');
+                    });
+
+                    // Activate selected card
+                    this.classList.add('border-primary', 'bg-primary-50');
+                    this.querySelector('.payment-radio').classList.add('bg-primary', 'border-primary');
+                    this.querySelector('.payment-radio').classList.remove('border-border');
+
+                    // Guardamos el método de pago seleccionado
+                    selectedPaymentMethod = this.dataset.method;
+
+                    // Mostrar el formulario correspondiente
+                    if (selectedPaymentMethod === 'card') {
+                        document.getElementById('cardPaymentForm').classList.remove('hidden');
+                        updatePaymentButton();
+                    } else if (selectedPaymentMethod === 'crypto') {
+                        document.getElementById('cryptoPaymentForm').classList.remove('hidden');
+                    } else if (selectedPaymentMethod === 'yape') {
+                        document.getElementById('yape').classList.remove('hidden');
+                    }
+
+                    // 🚀 Aquí construimos y enviamos el pedido
+                    const pedido = {
+                        numPedido: "PED-" + Date.now(),
+                        mtoTotal: cart.reduce((sum, item) => sum + item.price * item.quantity, 0),
+                        direccionEnvio: document.getElementById('addressLine1')?.value || "Recojo en tienda",
+                        metodoPago: selectedPaymentMethod, // <<-- usamos el método seleccionado
+                        fechaRegistro: new Date().toISOString(),
+                        cancelado: "N"
+                    };
+
+                    function generarQR(codigoPedido, fechPedido) {
+                        const qrcodeEl = document.getElementById("qrcode");
+                        console.log("GenerandoQR Nuevo");
+                        qrcodeEl.innerHTML = ""; // limpiar por si ya había uno
+                        new QRCode(qrcodeEl, {
+                            text: `http://192.168.18.105:8082/api/restaurante/pagarPedido?codigo=${codigoPedido}&fecha=${fechPedido}`,
+                            width: 200,
+                            height: 200
+                        });
+                    }
+
+                    fetch("http://localhost:8082/api/restaurante/registrarPedido", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify(pedido)
+                    })
+                            .then(response => response.json())
+                            .then(data => {
+                                codigoPedido = data.codigoPago;
+                                fechPedido = data.fechaCreacion;
+                                console.log("✅ Pedido enviado:", data);
+                                console.log("CodPedido : ", codigoPedido, "FechPedido : ", fechPedido);
+                                generarQR(codigoPedido, fechPedido);
+                            })
+                            .catch(error => console.error("❌ Error al registrar pedido:", error));
+                });
+            });
+
+            // Crypto selection
+            document.querySelectorAll('.crypto-option').forEach(option => {
+                option.addEventListener('click', function () {
+                    // Remove active state from all crypto options
+                    document.querySelectorAll('.crypto-option').forEach(o => {
+                        o.classList.remove('border-secondary', 'bg-secondary-50');
+                    });
+
+                    // Activate selected crypto
+                    this.classList.add('border-secondary', 'bg-secondary-50');
+                    selectedCrypto = this.dataset.crypto;
+
+                    // Show crypto details
+                    document.getElementById('cryptoDetails').classList.remove('hidden');
+
+                    // Update crypto amount based on selection
+                    const cryptoAmount = document.getElementById('cryptoAmount');
+                    if (selectedCrypto === 'btc') {
+                        cryptoAmount.textContent = '0.00164 BTC';
+                    } else if (selectedCrypto === 'eth') {
+                        cryptoAmount.textContent = '0.02437 ETH';
+                    }
+
+                    updatePaymentButton();
+                });
+            });
+
+            // Card input formatting
+            document.getElementById('cardNumber').addEventListener('input', function (e) {
+                let value = e.target.value.replace(/\s/g, '').replace(/[^0-9]/gi, '');
+                let formattedValue = value.match(/.{1,4}/g)?.join(' ') || value;
+                e.target.value = formattedValue;
+                updatePaymentButton();
+            });
+
+            document.getElementById('cardExpiry').addEventListener('input', function (e) {
+                let value = e.target.value.replace(/\D/g, '');
+                if (value.length >= 2) {
+                    value = value.substring(0, 2) + '/' + value.substring(2, 4);
+                }
+                e.target.value = value;
+                updatePaymentButton();
+            });
+
+            document.getElementById('cardCvv').addEventListener('input', function (e) {
+                e.target.value = e.target.value.replace(/\D/g, '').substring(0, 4);
+                updatePaymentButton();
+            });
+
+            let estadoPago = "N";
+            console.log("numPedido : ", codigoPedido);
+
+            // Función que consulta el backend por el estado de pago
+            async function verificarPago() {
+                try {
+                    console.log("Consultando pedido:", codigoPedido);
+                    const res = await fetch(`http://localhost:8082/api/restaurante/estadoPedidoPago?codigo=${codigoPedido}`);
+
+                    if (!res.ok) {
+                        throw new Error(`Error HTTP: ${res.status}`);
+                    }
+
+                    const text = await res.text(); // primero leo como texto
+                    if (!text) {
+                        throw new Error("Respuesta vacía del backend");
+                    }
+
+                    let data;
+                    try {
+                        data = JSON.parse(text); // convierto a JSON
+                    } catch (e) {
+                        throw new Error("La respuesta no es JSON válido: " + text);
+                    }
+
+                    // "P" = pagado, "N" = no pagado
+                    estadoPago = data.cancelado;
+                    updatePaymentButton();
+                } catch (err) {
+                    console.error("Error verificando pago:", err);
+                }
+            }
+
+            setInterval(verificarPago, 3000);
+
+            // Update payment button state
+            function updatePaymentButton() {
+                const paymentButton = document.getElementById('processPayment');
+                const buttonText = document.getElementById('paymentButtonText');
+
+                let isValid = false;
+
+                if (selectedPaymentMethod === 'card') {
+                    const cardNumber = document.getElementById('cardNumber').value.replace(/\s/g, '');
+                    const cardExpiry = document.getElementById('cardExpiry').value;
+                    const cardCvv = document.getElementById('cardCvv').value;
+                    const cardName = document.getElementById('cardName').value;
+
+                    isValid = cardNumber.length >= 16 && cardExpiry.length === 5 &&
+                            cardCvv.length >= 3 && cardName.trim().length > 0;
+
+                    buttonText.textContent = 'Procesar Pago - S/. 69,45';
+                } else if (selectedPaymentMethod === 'crypto' && selectedCrypto) {
+                    isValid = true;
+                    buttonText.textContent = 'Confirmar Pago Crypto - S/. 69,45';
+                } else if (selectedPaymentMethod === 'yape') {
+                    // Aquí habilitamos el botón solo cuando el backend confirme el pago
+                    if (estadoPago === "P") {
+                        isValid = true;
+                        buttonText.textContent = 'Pago confirmado'; // ✅
+                    } else {
+                        isValid = false;
+                        buttonText.textContent = 'Esperando pago en Yape...';
+                    }
+                } else {
+                    buttonText.textContent = 'Seleccionar método de pago';
+                }
+
+                paymentButton.disabled = !isValid;
+            }
+
+            // Process payment
+            document.getElementById('processPayment').addEventListener('click', function () {
+                if (this.disabled)
+                    return;
+
+                // Mostrar modal
+                document.getElementById('processingModal').style.display = 'flex';
+
+                const steps = document.querySelectorAll('#processingModal .step');
+
+                setTimeout(() => {
+                    // ✅ Paso 2 completado
+                    let circle2 = steps[1].querySelector('div');
+                    circle2.className = "w-4 h-4 bg-accent rounded-full flex items-center justify-center";
+                    circle2.innerHTML = '<svg class="w-2 h-2 text-white" fill="currentColor" viewBox="0 0 8 8"><path d="M6.564.75l-3.59 3.612-1.538-1.55L0 4.26l2.974 2.99L8 2.193z"/></svg>';
+
+                    // Iniciar paso 3
+                    let circle3 = steps[2].querySelector('div');
+                    circle3.className = "w-4 h-4 border-2 border-primary rounded-full animate-spin";
+                    circle3.innerHTML = "";
+                }, 2000);
+
+                setTimeout(() => {
+                    // ✅ Paso 3 completado
+                    let circle3 = steps[2].querySelector('div');
+                    circle3.className = "w-4 h-4 bg-accent rounded-full flex items-center justify-center";
+                    circle3.innerHTML = '<svg class="w-2 h-2 text-white" fill="currentColor" viewBox="0 0 8 8"><path d="M6.564.75l-3.59 3.612-1.538-1.55L0 4.26l2.974 2.99L8 2.193z"/></svg>';
+
+                    // Redirigir
+                    setTimeout(() => {
+                        window.location.href = 'order_tracking.html';
+                    }, 1000);
+                }, 5000);
+            });
+
+
+            // Form validation for all inputs
+            document.querySelectorAll('input').forEach(input => {
+                input.addEventListener('input', updatePaymentButton);
+            });
+
+            // Initialize
+            updatePaymentButton();
+        </script>
+        <script id="dhws-dataInjector" src="../public/dhws-data-injector.js"></script>
+    </body>
+</html>
